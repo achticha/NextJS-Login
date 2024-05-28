@@ -3,7 +3,7 @@ import { connectMongoDB } from '../../../../lib/mongodb';
 import User from '../../../../models/user';
 import jwt from 'jsonwebtoken';
 
-export async function handler(req, res) {
+export async function loginLine(req, res) {
     if (req.method === 'POST') {
         try {
             await connectMongoDB(); 
@@ -21,24 +21,11 @@ export async function handler(req, res) {
 
             let user = await User.findOneAndUpdate({ name: userId }, data, { new: true, upsert: true });
             if (user) {
-                // console.log("userAndUpdate ", user);
             } else {
                 user = new User(data);
                 await user.save();
             }
-
-            // let payload = {
-            //     user
-            // }
-            // let token = await  jwt.sign(payload, "jwtsecret", {expiresIn: "1d"}, (err, token) => {
-            //     if (err) {
-            //         throw err;
-            //     } 
-            //     return NextResponse.json({ token, payload }); 
-            // })
-
             let payload = { user };
-    
             return new Promise((resolve, reject) => {
                 jwt.sign(payload, "jwtsecret", { expiresIn: "1d" }, (err, token) => {
                     if (err) {
@@ -49,7 +36,6 @@ export async function handler(req, res) {
                 });
             });
 
-            return NextResponse.json(payload); 
         } catch (error) {
             console.error(error);
             return NextResponse.json({ message: "An error occurred while creating the profile" }, { status: 500 });
@@ -58,7 +44,6 @@ export async function handler(req, res) {
         try {
             await connectMongoDB();
             const usersWithDisplayName = await User.find({ displayName: { $exists: true }});
-            console.log("usersWithDisplayName",usersWithDisplayName);
             
             return NextResponse.json(usersWithDisplayName);
         } catch (error) {
@@ -70,4 +55,4 @@ export async function handler(req, res) {
     }
 }
 
-export { handler as GET, handler as POST };
+export { loginLine as GET, loginLine as POST };

@@ -15,18 +15,13 @@ import { signOut } from "next-auth/react";
 function LoginLinePage() {
   const router = useRouter();
   const [name, setName] = useState("");
-  const [users, setUsers] = useState([]); // State to hold user data from GET request
+  const [users, setUsers] = useState([]); 
 
-  // useEffect(() => {
-  //   if (status === 'authenticated') {
-  //     router.replace('/welcome');
-  //   }
-  // }, [status, router]);
 
   useEffect(() => {
     const initLiff = async () => {
       try {
-        await liff.init({ liffId: "2005153917-wzBM0A0R" }); // Use your own liffId
+        await liff.init({ liffId: "2005153917-wzBM0A0R" }); 
         if (!liff.isLoggedIn()) {
           liff.login();
         } else {
@@ -55,12 +50,6 @@ function LoginLinePage() {
 
       const data = await res.json();
       setName(data);
-      if (res.ok) {
-        console.log("Send profile to /api/linelogin", data);
-        // router.replace('/welcome');
-      } else {
-        console.log("User registration failed:", data.message);
-      }
     } catch (err) {
       console.error("Error during handleLogin:", err);
     }
@@ -90,7 +79,6 @@ function LoginLinePage() {
                 Logout
               </Link>
             </li>
-            {/* <li><a onClick={() => signOut()} className='bg-red-500 text-white border py-2 px-3 rounded-md text-lg my-2'>Logout</a></li> */}
           </ul>
         </nav>
         <div

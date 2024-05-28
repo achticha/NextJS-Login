@@ -12,7 +12,6 @@ export default function Home() {
 
     const { data: session } = useSession();
     if (!session) redirect("/login");
-    console.log(session)
 
   return (
     <main>
