@@ -3,7 +3,7 @@ import { connectMongoDB } from '../../../../lib/mongodb';
 import User from '../../../../models/user';
 import jwt from 'jsonwebtoken';
 
-export async function loginLine(req, res) {
+export async function loginLine(req) {
     if (req.method === 'POST') {
         try {
             await connectMongoDB(); 
